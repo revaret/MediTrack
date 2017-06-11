@@ -4,7 +4,8 @@ import moment from 'moment';
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { TabsPage } from '../tabs/tabs';
-
+import validator from 'Validator';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-med',
@@ -17,7 +18,8 @@ export class MedPage {
       public navParams: NavParams, 
       private datePicker: DatePicker,
       private localNotifications: LocalNotifications,
-      public alertCtrl: AlertController
+      public alertCtrl: AlertController,
+      public toastCtrl: ToastController
       ) {
     this.initialize();
   }
@@ -31,6 +33,7 @@ export class MedPage {
   numDose: string;
   edit: string;
   medicine = {};
+  medpurch: string;
   confrmDltRm = false;
 
   initialize() {
@@ -44,6 +47,7 @@ export class MedPage {
       this.numDose = this.medicine['num_dose'];
       this.reminderBadge = this.medicine['reminder_bg'];
       this.reminderDates = this.medicine['reminderDates'];
+      this.medpurch = this.medicine['medpurch'];
     }
   }
 
@@ -51,10 +55,51 @@ export class MedPage {
       console.log('radio changed', this.dosagef);
   }
 
-  showConfirm(title,message,okCalbc,scope) {
+  showConfirm() {
+    let scope = this;
+      let data = {
+          medicine_name: this.medname,
+          dosage_frequency: this.dosagef,
+          quantity: this.dosage,
+          number_of_dose: this.numDose,
+          number_of_medicine_purchased: this.medpurch
+      }
+      let rules = {
+          medicine_name: 'required',
+          dosage_frequency: 'required',
+          quantity: 'required',
+          number_of_dose: 'required|numeric',
+          number_of_medicine_purchased: 'required|numeric'
+      }
+      let v = validator.make(data,rules);
+      if (v.fails()) {
+        let errors = v.getErrors();
+        console.log(errors);
+        if(errors.medicine_name) {
+            scope.presentToast(errors.medicine_name);
+            return;
+        }
+        if(errors.dosage_frequency) {
+            scope.presentToast(errors.dosage_frequency)
+            return;
+        }
+        if(errors.quantity) {
+            scope.presentToast(errors.quantity)
+            return;
+        }
+        if(errors.number_of_dose) {
+            scope.presentToast(errors.number_of_dose)
+            return;
+        }
+        if(errors.number_of_medicine_purchased) {
+            scope.presentToast(errors.number_of_medicine_purchased)
+            return;
+        }
+        return;
+    }
     let confirm = this.alertCtrl.create({
-      title: title,
-      message: message,
+      title: "Check Expiry",
+      message: "Please double check that the medicine has not expired by pressing Agree",
       buttons: [
         {
           text: 'Disagree',
@@ -66,7 +111,7 @@ export class MedPage {
           text: 'Agree',
           handler: () => {
             console.log('Agree clicked');
-            okCalbc(scope);
+            scope.SaveMed();
           }
         }
       ]
@@ -130,6 +175,7 @@ export class MedPage {
         item.reminder_bg = scope.reminderBadge;
         item.num_dose = scope.numDose;
         item.reminderDates = scope.reminderDates;
+        item.medpurch = scope.medpurch;
       }
     });
     localStorage.removeItem('medicine');
@@ -137,8 +183,17 @@ export class MedPage {
     this.navCtrl.setRoot(TabsPage);
   }
 
+  presentToast(obj) {
+    obj.forEach(element => {
+        let toast = this.toastCtrl.create({
+            message: element,
+            duration: 3000
+        });
+        toast.present();
+    });
+  }
+
   SaveMed() {
-      console.log(this.medname,this.dosagef,this.dosage,this.reminderBadge);
       this.setReminders();
       if(this.edit){
         this.updateMed();
@@ -152,7 +207,8 @@ export class MedPage {
             dosage: this.dosage,
             reminder_bg: this.reminderBadge,
             num_dose: this.numDose,
-            reminderDates: this.reminderDates
+            reminderDates: this.reminderDates,
+            medpurch: this.medpurch
         });
         localStorage.setItem('medicine',JSON.stringify(arr));
         this.navCtrl.setRoot(TabsPage);
@@ -164,7 +220,8 @@ export class MedPage {
         dosage: this.dosage,
         reminder_bg: this.reminderBadge,
         num_dose: this.numDose,
-        reminderDates: this.reminderDates
+        reminderDates: this.reminderDates,
+        medpurch: this.medpurch
     }]));
     this.navCtrl.setRoot(TabsPage);
   }

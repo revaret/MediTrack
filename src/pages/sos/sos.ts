@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import validator from 'Validator';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-sos',
@@ -8,7 +10,11 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class SosPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public toastCtrl: ToastController
+    ) {
     this.initialize();
   }
 
@@ -33,11 +39,45 @@ export class SosPage {
       this.sos_name = localStorage.getItem('sos_name');
   }
 
+  presentToast(obj) {
+    obj.forEach(element => {
+        let toast = this.toastCtrl.create({
+            message: element,
+            duration: 3000
+        });
+        toast.present();
+    });
+  }
+
   callSOS() {
     window.open("tel:" + localStorage.mobile);
   }
 
   saveMobile() {
+      let scope = this;
+      let data = {
+          contact_name: this.sos_name,
+          mobile: this.mobile
+      }
+      let rules = {
+          contact_name: 'required',
+          mobile: 'required|numeric'
+      }
+
+      let v = validator.make(data,rules);
+      if (v.fails()) {
+        let errors = v.getErrors();
+        console.log(errors);
+        if(errors.contact_name) {
+            scope.presentToast(errors.contact_name);
+            return;
+        }
+        if(errors.mobile) {
+            scope.presentToast(errors.mobile)
+            return;
+        }
+        return;
+    }
       console.log('button clicked sos', this.mobile);
       localStorage.setItem('mobile',this.mobile);
       localStorage.setItem('sos_name',this.sos_name);

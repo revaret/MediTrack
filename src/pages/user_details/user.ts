@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SosPage } from '../sos/sos';
 import { TabsPage } from '../tabs/tabs';
+import validator from 'Validator';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-user',
@@ -9,8 +11,22 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class UserPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      public toastCtrl: ToastController
+      ) {
     this.initialize();
+  }
+
+  presentToast(obj) {
+    obj.forEach(element => {
+        let toast = this.toastCtrl.create({
+            message: element,
+            duration: 3000
+        });
+        toast.present();
+    });
   }
 
   welcomeMessage = {
@@ -36,6 +52,30 @@ export class UserPage {
   }
 
   saveUser() {
+      let scope = this;
+      let data = {
+          username: this.name,
+          age: this.age
+      }
+      let rules = {
+          username: 'required',
+          age: 'required|numeric'
+      }
+
+      let v = validator.make(data,rules);
+      if (v.fails()) {
+        let errors = v.getErrors();
+        console.log(errors);
+        if(errors.username) {
+            scope.presentToast(errors.username);
+            return;
+        }
+        if(errors.age) {
+            scope.presentToast(errors.age)
+            return;
+        }
+        return;
+    }
       console.log('button clicked user', this.name , this.age);
       localStorage.setItem('username',this.name);
       localStorage.setItem('age',this.age);

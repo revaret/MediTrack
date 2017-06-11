@@ -10,7 +10,7 @@ import { UserPage } from '../pages/user_details/user';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = (localStorage.user)? TabsPage: UserPage ;
+  rootPage:any = (localStorage.user === 'true')? TabsPage: UserPage ;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

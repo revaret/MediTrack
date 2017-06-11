@@ -1,5 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { DatePicker } from '@ionic-native/date-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
@@ -8,6 +10,8 @@ import { SettingsPage } from '../pages/settings/settings';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { UserPage} from '../pages/user_details/user';
+import { SosPage } from '../pages/sos/sos';
+import { MedPage } from '../pages/medicine/medicine';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,7 +23,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SettingsPage,
     HomePage,
     TabsPage,
-    UserPage
+    UserPage,
+    SosPage,
+    MedPage
   ],
   imports: [
     BrowserModule,
@@ -32,11 +38,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SettingsPage,
     HomePage,
     TabsPage,
-    UserPage
+    UserPage,
+    SosPage,
+    MedPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    DatePicker,
+    LocalNotifications,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

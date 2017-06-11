@@ -1,5 +1,13 @@
-<h2 class="welcome-header" [innerHTML]="user.title"></h2>
-<p class="welcome-sub" [innerHTML]="user.description"></p>
+<ion-header *ngIf="edit === true">
+    <ion-navbar class="rightAlign">
+        <button ion-button icon-left round>
+          <ion-icon name="call"></ion-icon>
+          SOS
+        </button>
+    </ion-navbar>
+</ion-header>
+<h2 class="welcome-header" [innerHTML]="userMessage.title"></h2>
+<p class="welcome-sub" [innerHTML]="userMessage.description"></p>
 <ion-list>
 
     <ion-item>

@@ -1,6 +1,19 @@
-<h2 class="welcome-header" [innerHTML]="sos.title"></h2>
-<p class="welcome-sub" [innerHTML]="sos.description"></p>
+<ion-header *ngIf="edit === true">
+    <ion-navbar class="rightAlign">
+        <button ion-button icon-left round>
+          <ion-icon name="call"></ion-icon>
+          SOS
+        </button>
+    </ion-navbar>
+</ion-header>
+<h2 class="welcome-header" [innerHTML]="sosMessage.title"></h2>
+<p class="welcome-sub" [innerHTML]="sosMessage.description"></p>
 <ion-list>
+
+    <ion-item>
+        <ion-label floating>Contact name</ion-label>
+        <ion-input type="text" [(ngModel)]="sos_name"></ion-input>
+    </ion-item>
 
     <ion-item>
         <ion-label floating>Mobile</ion-label>

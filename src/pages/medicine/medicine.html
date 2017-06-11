@@ -3,48 +3,50 @@
         <ion-title>{{medTitle}}</ion-title>
     </ion-navbar>
 </ion-header>
-<ion-list class="medcontent">
-    <ion-item>
-        <ion-label floating>Medicine name</ion-label>
-        <ion-input type="text" [(ngModel)]="medname"></ion-input>
-    </ion-item>
-
-    <ion-list radio-group [(ngModel)]="dosagef">
-        <ion-list-header>
-            Dosage Frequency
-        </ion-list-header>
-
+<ion-content padding>
+    <ion-list>
         <ion-item>
-            <ion-label>Daily</ion-label>
-            <ion-radio checked="true" value="daily"></ion-radio>
+            <ion-label floating>Medicine name</ion-label>
+            <ion-input type="text" [(ngModel)]="medname"></ion-input>
         </ion-item>
 
+        <ion-list radio-group [(ngModel)]="dosagef">
+            <ion-list-header>
+                Dosage Frequency
+            </ion-list-header>
+
+            <ion-item>
+                <ion-label>Daily</ion-label>
+                <ion-radio checked="true" value="daily"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Weekly</ion-label>
+                <ion-radio value="weekly"></ion-radio>
+            </ion-item>
+        </ion-list>
         <ion-item>
-            <ion-label>Weekly</ion-label>
-            <ion-radio value="weekly"></ion-radio>
+            <ion-label>Quantity (mg)</ion-label>
+            <ion-range [(ngModel)]="dosage" min="0" max="200" pin="true" color="secondary">
+                <ion-icon range-left small name="flask"></ion-icon>
+                <ion-icon range-right name="flask"></ion-icon>
+            </ion-range>
         </ion-item>
+        <ion-item>
+            <ion-label floating># of Dose/day</ion-label>
+            <ion-input type="number" [(ngModel)]="numDose"></ion-input>
+        </ion-item>
+        <ion-item (click)='openPicker()'>
+            <ion-icon name="timer" item-start></ion-icon>
+            Reminder
+            <ion-badge item-end>{{reminderBadge}}</ion-badge>
+        </ion-item>
+        <ion-row>
+            <ion-col col-2></ion-col>
+            <ion-col col-8>
+                <button ion-button block (click)="SaveMed()">Save</button>
+            </ion-col>
+            <ion-col col-2></ion-col>
+        </ion-row>
     </ion-list>
-    <ion-item>
-        <ion-label>Quantity (mg)</ion-label>
-        <ion-range [(ngModel)]="dosage" min="0" max="200" pin="true" color="secondary">
-            <ion-icon range-left small name="flask"></ion-icon>
-            <ion-icon range-right name="flask"></ion-icon>
-        </ion-range>
-    </ion-item>
-    <ion-item>
-        <ion-label floating># of Dose/day</ion-label>
-        <ion-input type="number" [(ngModel)]="numDose"></ion-input>
-    </ion-item>
-    <ion-item (click)='openPicker()'>
-        <ion-icon name="timer" item-start></ion-icon>
-        Reminder
-        <ion-badge item-end>{{reminderBadge}}</ion-badge>
-    </ion-item>
-</ion-list>
-<ion-row>
-    <ion-col col-2></ion-col>
-    <ion-col col-8>
-        <button ion-button block (click)="SaveMed()">Save</button>
-    </ion-col>
-    <ion-col col-2></ion-col>
-</ion-row>
+</ion-content>

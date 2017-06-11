@@ -5,7 +5,7 @@
                 <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
             </ion-col>
             <ion-col col-4 class="rightAlign">
-                <button ion-button icon-left round>
+                <button ion-button icon-left round (click)='callSOS()'>
                   <ion-icon name="call"></ion-icon>
                   SOS
                 </button>
@@ -16,8 +16,19 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let item of medicines">
+        <ion-item *ngFor="let item of medicines" (click)="editMed(item)">
             {{ item.medname }}
         </ion-item>
     </ion-list>
+    <div *ngIf="medicines.length === 0">
+        <h2 class="welcome-header">No Medicines!</h2>
+        <p class="welcome-sub"> Looks like you haven't added any medicines, click the below button to add medicines</p>
+        <ion-row>
+            <ion-col col-2></ion-col>
+            <ion-col col-8>
+                <button ion-button block (click)="addMeds()">Add Medicines</button>
+            </ion-col>
+            <ion-col col-2></ion-col>
+        </ion-row>
+    </div>
 </ion-content>

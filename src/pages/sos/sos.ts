@@ -33,6 +33,10 @@ export class SosPage {
       this.sos_name = localStorage.getItem('sos_name');
   }
 
+  callSOS() {
+    window.open("tel:" + localStorage.mobile);
+  }
+
   saveMobile() {
       console.log('button clicked sos', this.mobile);
       localStorage.setItem('mobile',this.mobile);

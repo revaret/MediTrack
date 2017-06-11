@@ -14,11 +14,17 @@ export class HomePage {
   medicines = [];
 
   initialize() {
-    this.medicines = JSON.parse(localStorage.medicine);
+    if(localStorage.medicine){
+      this.medicines = JSON.parse(localStorage.medicine);
+    }
   }
 
   addMeds() {
     this.navCtrl.push(MedPage);
+  }
+
+  callSOS() {
+    window.open("tel:" + localStorage.mobile);
   }
 
 }

@@ -29,6 +29,10 @@ export class SettingsPage {
     });
   }
 
+  callSOS() {
+    window.open("tel:" + localStorage.mobile);
+  }
+
   medClick() {
     this.navCtrl.push( MedPage);
   }

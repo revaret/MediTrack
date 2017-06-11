@@ -1,0 +1,17 @@
+<h2 class="welcome-header" [innerHTML]="sos.title"></h2>
+<p class="welcome-sub" [innerHTML]="sos.description"></p>
+<ion-list>
+
+    <ion-item>
+        <ion-label floating>Mobile</ion-label>
+        <ion-input type="number" [(ngModel)]="mobile"></ion-input>
+    </ion-item>
+
+</ion-list>
+<ion-row>
+    <ion-col col-2></ion-col>
+    <ion-col col-8>
+        <button ion-button color="secondary" block (click)="saveMobile()">Submit</button>
+    </ion-col>
+    <ion-col col-2></ion-col>
+</ion-row>

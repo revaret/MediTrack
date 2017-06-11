@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar>
+        <ion-row>
+            <ion-col col-8>
+                <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+            </ion-col>
+            <ion-col col-4 class="rightAlign">
+                <button ion-button icon-left round>
+                  <ion-icon name="call"></ion-icon>
+                  SOS
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let item of items">
+            {{ item }}
+        </ion-item>
+    </ion-list>
+</ion-content>
